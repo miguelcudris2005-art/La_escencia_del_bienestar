@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Esencia del Bienestar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   RESET & ROOT VARIABLES
+============================================= */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --green-deep:    #1a4731;
+  --green-mid:     #2d7a4f;
+  --green-soft:    #4caf80;
+  --green-light:   #a8d5b5;
+  --green-pale:    #e8f5ee;
+  --gold:          #c9a84c;
+  --gold-light:    #f0d080;
+  --white:         #ffffff;
+  --off-white:     #f7faf8;
+  --text-dark:     #1a2e25;
+  --text-mid:      #3d5a4a;
+  --text-light:    #7a9e8a;
+  --shadow-sm:     0 4px 16px rgba(26,71,49,0.10);
+  --shadow-md:     0 8px 32px rgba(26,71,49,0.15);
+  --shadow-lg:     0 20px 60px rgba(26,71,49,0.20);
+  --radius:        18px;
+  --radius-lg:     28px;
+  --transition:    0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--off-white);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* =============================================
+   SCROLLBAR
+============================================= */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--green-pale); }
+::-webkit-scrollbar-thumb { background: var(--green-mid); border-radius: 3px; }
+
+/* =============================================
+   MENU FLOTANTE & SIDEBAR
+============================================= */
+#menu-btn {
+  position: fixed;
+  top: 22px; left: 22px;
+  z-index: 1000;
+  width: 50px; height: 50px;
+  background: var(--white);
+  border: none; border-radius: 50%;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 5px;
+  transition: var(--transition);
+}
+#menu-btn:hover { background: var(--green-pale); transform: scale(1.08); }
+#menu-btn span {
+  display: block; width: 22px; height: 2px;
+  background: var(--green-deep);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+#menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+#menu-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+#menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+#sidebar-overlay {
+  position: fixed; inset: 0;
+  background: rgba(26,47,37,0.45);
+  backdrop-filter: blur(4px);
+  z-index: 998;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s;
+}
+#sidebar-overlay.visible { opacity: 1; pointer-events: all; }
+
+#sidebar {
+  position: fixed;
+  top: 0; left: -320px;
+  width: 300px; height: 100vh;
+  background: linear-gradient(160deg, var(--green-deep) 0%, #0f2d1e 100%);
+  z-index: 999;
+  padding: 90px 0 40px;
+  transition: left 0.42s cubic-bezier(0.4,0,0.2,1);
+  overflow-y: auto;
+}
+#sidebar.open { left: 0; }
+
+#sidebar .brand {
+  text-align: center;
+  padding: 0 30px 30px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 20px;
+}
+#sidebar .brand span {
+  font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--green-light); display: block; margin-bottom: 4px;
+}
+#sidebar .brand h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; color: var(--white); line-height: 1.3;
+}
+
+#sidebar nav a {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 30px;
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 0.93rem; font-weight: 500;
+  transition: var(--transition);
+  border-left: 3px solid transparent;
+}
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: var(--white);
+  background: rgba(255,255,255,0.06);
+  border-left-color: var(--green-soft);
+  padding-left: 36px;
+}
+#sidebar nav a .icon { font-size: 1.1rem; width: 22px; text-align: center; }
+
+#sidebar .sidebar-footer {
+  padding: 30px 30px 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 20px;
+  text-align: center;
+  color: rgba(255,255,255,0.45);
+  font-size: 0.75rem;
+}
+
+/* =============================================
+   WHATSAPP FLOATING BUTTON
+============================================= */
+#wa-float {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  z-index: 997;
+  width: 62px; height: 62px;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 24px rgba(37,211,102,0.45);
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition);
+  animation: pulse-wa 2.5s infinite;
+}
+#wa-float:hover { transform: scale(1.12); }
+#wa-float svg { width: 32px; height: 32px; fill: white; }
+@keyframes pulse-wa {
+  0%,100% { box-shadow: 0 6px 24px rgba(37,211,102,0.45); }
+  50%      { box-shadow: 0 6px 40px rgba(37,211,102,0.75); }
+}
+
+/* =============================================
+   EDIT MODE INDICATOR
+============================================= */
+#edit-indicator {
+  position: fixed;
+  top: 22px; right: 22px;
+  z-index: 1000;
+  background: linear-gradient(135deg, var(--gold), #e8b84b);
+  color: var(--text-dark);
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+  display: none;
+  animation: blink-edit 1.5s infinite alternate;
+}
+@keyframes blink-edit { from { opacity:1; } to { opacity:0.6; } }
+
+/* =============================================
+   SECTIONS COMMON
+============================================= */
+section { position: relative; }
+
+.section-tag {
+  display: inline-block;
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--green-mid);
+  background: var(--green-pale);
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  color: var(--green-deep);
+  line-height: 1.25;
+  margin-bottom: 18px;
+}
+
+.section-subtitle {
+  font-size: 1.05rem; color: var(--text-mid);
+  line-height: 1.75; max-width: 600px;
+}
+
+.container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+/* Scroll animations */
+.reveal {
+  opacity: 0; transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-left { opacity:0; transform:translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal-left.visible { opacity:1; transform:none; }
+.reveal-right { opacity:0; transform:translateX(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal-right.visible { opacity:1; transform:none; }
+
+/* =============================================
+   BUTTONS
+============================================= */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 15px 32px;
+  border-radius: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem; font-weight: 600;
+  cursor: pointer; border: none;
+  text-decoration: none;
+  transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0.15);
+  opacity: 0; transition: opacity 0.2s;
+}
+.btn:hover::after { opacity: 1; }
+.btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.btn:active { transform: translateY(0); }
+
+.btn-green {
+  background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+  color: white;
+  box-shadow: 0 6px 24px rgba(45,122,79,0.35);
+}
+.btn-wa {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: white;
+  box-shadow: 0 6px 24px rgba(37,211,102,0.35);
+}
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), #a87e2e);
+  color: white;
+  box-shadow: 0 6px 24px rgba(201,168,76,0.35);
+}
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--green-mid);
+  color: var(--green-mid);
+}
+.btn-outline:hover { background: var(--green-mid); color: white; }
+
+/* =============================================
+   HERO
+============================================= */
+#inicio {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, var(--green-deep) 0%, #0d3322 50%, #1a5c3a 100%);
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(76,175,128,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(45,122,79,0.20) 0%, transparent 55%);
+}
+
+.hero-particles {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(168,213,181,0.15);
+  animation: float-p linear infinite;
+}
+@keyframes float-p {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+  padding: 120px 24px 80px;
+  max-width: 1160px; margin: 0 auto; width: 100%;
+}
+
+.hero-text .eyebrow {
+  display: inline-block;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--green-light);
+  background: rgba(168,213,181,0.15);
+  border: 1px solid rgba(168,213,181,0.25);
+  padding: 6px 16px; border-radius: 20px;
+  margin-bottom: 24px;
+}
+
+.hero-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  color: var(--white);
+  line-height: 1.18;
+  margin-bottom: 20px;
+}
+.hero-text h1 em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.hero-text p {
+  font-size: 1.1rem; color: rgba(255,255,255,0.78);
+  line-height: 1.8; margin-bottom: 36px;
+}
+
+.hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+
+.hero-stats {
+  display: flex; gap: 32px; margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+.hero-stat strong {
+  display: block;
+  font-size: 1.8rem; font-weight: 800;
+  color: var(--gold-light); line-height: 1;
+}
+.hero-stat span {
+  font-size: 0.75rem; color: rgba(255,255,255,0.55);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+
+.hero-visual {
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.hero-orb {
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(76,175,128,0.25), rgba(168,213,181,0.1));
+  border: 1px solid rgba(168,213,181,0.2);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  animation: slow-spin 20s linear infinite;
+  box-shadow: 0 0 80px rgba(76,175,128,0.2), inset 0 0 60px rgba(76,175,128,0.1);
+}
+@keyframes slow-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.hero-orb-inner {
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(26,71,49,0.8), rgba(45,122,79,0.5));
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 10px;
+  animation: slow-spin 20s linear infinite reverse;
+  border: 1px solid rgba(168,213,181,0.15);
+}
+.hero-orb-inner .leaf { font-size: 4.5rem; filter: drop-shadow(0 4px 16px rgba(76,175,128,0.5)); }
+.hero-orb-inner span {
+  color: var(--green-light); font-size: 0.8rem;
+  font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+}
+.hero-orb-dot {
+  position: absolute;
+  width: 14px; height: 14px;
+  background: var(--gold-light);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--gold);
+}
+
+/* Edit overlay for hero bg */
+.hero-img-wrap {
+  position: absolute; inset: 0; z-index: 1;
+  overflow: hidden;
+}
+.hero-img-wrap img {
+  width:100%; height:100%; object-fit:cover;
+  opacity: 0.18;
+  transition: opacity 0.5s;
+}
+
+/* =============================================
+   QUIÉNES SOMOS
+============================================= */
+#quienes {
+  padding: 100px 0;
+  background: var(--white);
+}
+
+.who-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+
+.who-visual {
+  position: relative;
+}
+.who-card-main {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background: linear-gradient(160deg, var(--green-deep), #0f2d1e);
+  padding: 50px 40px;
+  color: white;
+  position: relative;
+}
+.who-card-main::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(76,175,128,0.2), transparent 70%);
+}
+.who-card-main .big-icon { font-size: 4rem; margin-bottom: 20px; }
+.who-card-main h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; margin-bottom: 12px;
+  color: var(--gold-light);
+}
+.who-card-main p { font-size: 0.95rem; line-height: 1.8; opacity: 0.85; }
+
+.who-pillars {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px; margin-top: 16px;
+}
+.who-pillar {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--green-pale);
+  transition: var(--transition);
+}
+.who-pillar:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.who-pillar .ico { font-size: 1.6rem; margin-bottom: 8px; }
+.who-pillar h4 { font-size: 0.88rem; font-weight: 700; color: var(--green-deep); margin-bottom: 4px; }
+.who-pillar p { font-size: 0.78rem; color: var(--text-light); line-height: 1.6; }
+
+/* =============================================
+   DATOS CLAVE
+============================================= */
+#datos {
+  padding: 90px 0;
+  background: linear-gradient(160deg, var(--green-pale) 0%, var(--white) 100%);
+}
+
+.datos-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 24px; margin-top: 50px;
+}
+
+.dato-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(168,213,181,0.3);
+  transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.dato-card::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--green-mid), var(--green-soft));
+  transform: scaleX(0);
+  transition: transform 0.4s;
+  transform-origin: left;
+}
+.dato-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+.dato-card:hover::before { transform: scaleX(1); }
+
+.dato-icon { font-size: 2.6rem; margin-bottom: 16px; }
+.dato-num {
+  font-size: 2.4rem; font-weight: 800;
+  color: var(--green-deep);
+  line-height: 1; margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.dato-label { font-size: 0.87rem; color: var(--text-mid); font-weight: 500; }
+
+/* =============================================
+   PRODUCTOS
+============================================= */
+#productos {
+  padding: 100px 0;
+  background: var(--white);
+}
+
+.products-intro { text-align: center; margin-bottom: 60px; }
+.products-intro .section-subtitle { margin: 0 auto; }
+
+.products-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.product-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(168,213,181,0.25);
+  transition: var(--transition);
+  display: flex; flex-direction: column;
+}
+.product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+
+.product-img-wrap {
+  position: relative;
+  height: 220px;
+  background: linear-gradient(135deg, var(--green-pale), #d4eddf);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.product-img-wrap img {
+  width:100%; height:100%; object-fit:cover;
+  transition: transform 0.5s;
+}
+.product-card:hover .product-img-wrap img { transform: scale(1.05); }
+
+.product-img-placeholder {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px; color: var(--green-mid);
+}
+.product-img-placeholder span { font-size: 3rem; }
+.product-img-placeholder small { font-size: 0.72rem; opacity: 0.7; }
+
+.product-badge {
+  position: absolute; top: 14px; left: 14px;
+  background: linear-gradient(135deg, #ff4757, #c0392b);
+  color: white; font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 10px;
+}
+
+.edit-img-btn {
+  position: absolute; bottom: 10px; right: 10px;
+  background: rgba(26,71,49,0.85);
+  color: white; border: none;
+  border-radius: 8px; padding: 5px 10px;
+  font-size: 0.72rem; cursor: pointer;
+  display: none;
+  backdrop-filter: blur(4px);
+  gap: 5px; align-items: center;
+}
+.edit-mode .edit-img-btn { display: flex !important; }
+
+.product-body {
+  padding: 24px;
+  flex: 1; display: flex; flex-direction: column;
+}
+.product-name {
+  font-size: 1.05rem; font-weight: 700;
+  color: var(--green-deep); margin-bottom: 8px;
+}
+.product-desc {
+  font-size: 0.83rem; color: var(--text-mid);
+  line-height: 1.65; margin-bottom: 14px;
+}
+.product-benefits {
+  list-style: none; margin-bottom: 16px;
+}
+.product-benefits li {
+  font-size: 0.8rem; color: var(--text-mid);
+  padding: 3px 0;
+  display: flex; align-items: flex-start; gap: 7px;
+}
+.product-benefits li::before {
+  content: '✓'; color: var(--green-mid); font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.product-price {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px; margin-top: auto;
+}
+.price-old {
+  font-size: 0.85rem; color: #aaa;
+  text-decoration: line-through;
+}
+.price-new {
+  font-size: 1.3rem; font-weight: 800;
+  color: var(--green-mid);
+}
+
+/* =============================================
+   VIDEOS
+============================================= */
+#videos {
+  padding: 100px 0;
+  background: linear-gradient(160deg, var(--green-deep) 0%, #0f2d1e 100%);
+}
+#videos .section-tag { background: rgba(168,213,181,0.15); color: var(--green-light); }
+#videos .section-title { color: var(--white); }
+#videos .section-subtitle { color: rgba(255,255,255,0.7); }
+
+.videos-intro { text-align: center; margin-bottom: 50px; }
+
+.videos-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.video-card {
+  background: rgba(255,255,255,0.07);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid rgba(168,213,181,0.15);
+  transition: var(--transition);
+}
+.video-card:hover { transform: translateY(-6px); background: rgba(255,255,255,0.11); }
+
+.video-thumb {
+  position: relative; padding-bottom: 56.25%; height: 0;
+  overflow: hidden;
+}
+.video-thumb iframe {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+.video-info { padding: 18px; }
+.video-info h4 { font-size: 0.93rem; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+.video-info p { font-size: 0.8rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+.add-video-section {
+  margin-top: 40px; text-align: center;
+}
+#add-video-form {
+  display: none;
+  background: rgba(255,255,255,0.07);
+  border-radius: var(--radius);
+  padding: 30px;
+  margin-top: 20px;
+  max-width: 550px; margin-left: auto; margin-right: auto;
+  border: 1px solid rgba(168,213,181,0.15);
+}
+.edit-mode #add-video-form { display: block; }
+
+/* =============================================
+   TESTIMONIOS
+============================================= */
+#testimonios {
+  padding: 100px 0;
+  background: var(--off-white);
+}
+
+.testimonios-intro { text-align: center; margin-bottom: 60px; }
+
+.testimonios-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.testimonio-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(168,213,181,0.2);
+  position: relative; transition: var(--transition);
+}
+.testimonio-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.testimonio-card .quote-icon {
+  font-size: 3rem; color: var(--green-pale);
+  font-family: 'Playfair Display', serif;
+  line-height: 1; position: absolute; top: 18px; left: 24px;
+  color: var(--green-soft); opacity: 0.5;
+}
+.testimonio-card .stars { margin-bottom: 14px; color: var(--gold); font-size: 1rem; }
+.testimonio-card p {
+  font-size: 0.92rem; color: var(--text-mid);
+  line-height: 1.75; margin-bottom: 22px; position: relative; z-index: 1;
+  font-style: italic;
+}
+.testimonio-author { display: flex; align-items: center; gap: 12px; }
+.testimonio-author .avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 1rem;
+}
+.testimonio-author strong { font-size: 0.9rem; color: var(--green-deep); }
+.testimonio-author span { font-size: 0.75rem; color: var(--text-light); }
+
+/* =============================================
+   OPORTUNIDAD
+============================================= */
+#oportunidad {
+  padding: 100px 0;
+  background: var(--white);
+  position: relative; overflow: hidden;
+}
+#oportunidad::before {
+  content: '';
+  position: absolute; top: -100px; right: -100px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168,213,181,0.12), transparent 70%);
+}
+
+.oportunidad-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+
+.opo-features {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 18px; margin-top: 36px;
+}
+.opo-feat {
+  padding: 22px; border-radius: var(--radius);
+  background: var(--green-pale);
+  border: 1px solid rgba(168,213,181,0.4);
+  transition: var(--transition);
+}
+.opo-feat:hover { background: var(--green-light); transform: translateY(-3px); }
+.opo-feat .ico { font-size: 1.8rem; margin-bottom: 10px; }
+.opo-feat h4 { font-size: 0.9rem; font-weight: 700; color: var(--green-deep); margin-bottom: 4px; }
+.opo-feat p { font-size: 0.78rem; color: var(--text-mid); line-height: 1.6; }
+
+.opo-visual {
+  background: linear-gradient(160deg, var(--green-deep), #0d2e1a);
+  border-radius: var(--radius-lg);
+  padding: 50px 40px;
+  color: white;
+  position: relative; overflow: hidden;
+}
+.opo-visual::before {
+  content: '';
+  position: absolute; top: -80px; right: -80px;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(76,175,128,0.2), transparent);
+}
+.opo-levels { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; }
+.opo-level {
+  display: flex; align-items: center; gap: 16px;
+  background: rgba(255,255,255,0.07);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: var(--transition);
+}
+.opo-level:hover { background: rgba(255,255,255,0.12); }
+.opo-level .num {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), #a87e2e);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1rem; flex-shrink: 0;
+}
+.opo-level h4 { font-size: 0.93rem; font-weight: 600; }
+.opo-level p { font-size: 0.78rem; opacity: 0.7; }
+
+/* =============================================
+   CONSULTORIO IA
+============================================= */
+#consultorio {
+  padding: 100px 0;
+  background: linear-gradient(160deg, var(--green-pale), var(--white));
+}
+
+.ia-wrapper {
+  max-width: 780px; margin: 0 auto;
+}
+.ia-intro { text-align: center; margin-bottom: 40px; }
+
+.chat-container {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(168,213,181,0.3);
+}
+.chat-header {
+  background: linear-gradient(135deg, var(--green-deep), #1a5c3a);
+  padding: 20px 24px;
+  display: flex; align-items: center; gap: 14px;
+  color: white;
+}
+.chat-header .avatar-ia {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+}
+.chat-header-info h4 { font-size: 1rem; font-weight: 700; }
+.chat-header-info span { font-size: 0.75rem; opacity: 0.75; }
+.chat-status {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #4cff83;
+  box-shadow: 0 0 8px #4cff83;
+  margin-left: auto;
+}
+
+.chat-messages {
+  height: 380px; overflow-y: auto;
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 16px;
+  background: #fafcfb;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--green-light); border-radius: 2px; }
+
+.msg {
+  max-width: 78%;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.msg.bot { align-self: flex-start; }
+.msg.user { align-self: flex-end; }
+
+.msg-bubble {
+  padding: 13px 18px;
+  border-radius: 18px;
+  font-size: 0.88rem; line-height: 1.65;
+}
+.msg.bot .msg-bubble {
+  background: var(--white);
+  border: 1px solid rgba(168,213,181,0.3);
+  color: var(--text-dark);
+  border-bottom-left-radius: 6px;
+  box-shadow: var(--shadow-sm);
+}
+.msg.user .msg-bubble {
+  background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+  color: white;
+  border-bottom-right-radius: 6px;
+}
+.msg-time { font-size: 0.68rem; color: var(--text-light); padding: 0 4px; }
+.msg.user .msg-time { text-align: right; }
+
+.typing-indicator {
+  display: none; align-self: flex-start;
+}
+.typing-indicator.show { display: flex; }
+.typing-indicator .msg-bubble { padding: 14px 20px; }
+.typing-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green-mid);
+  display: inline-block; margin: 0 2px;
+  animation: typing-bounce 1.4s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing-bounce {
+  0%,60%,100% { transform: translateY(0); }
+  30% { transform: translateY(-8px); }
+}
+
+.chat-input-area {
+  padding: 16px;
+  border-top: 1px solid var(--green-pale);
+  display: flex; gap: 10px; align-items: flex-end;
+  background: var(--white);
+}
+.chat-input-area textarea {
+  flex: 1;
+  border: 1px solid rgba(168,213,181,0.4);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.88rem;
+  color: var(--text-dark);
+  resize: none; outline: none;
+  transition: border-color 0.2s;
+  min-height: 48px; max-height: 120px;
+  line-height: 1.5;
+  background: var(--off-white);
+}
+.chat-input-area textarea:focus { border-color: var(--green-mid); background: white; }
+.chat-input-area textarea::placeholder { color: var(--text-light); }
+
+.chat-send-btn {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(45,122,79,0.35);
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+.chat-send-btn:hover { transform: scale(1.1); }
+.chat-send-btn svg { width: 20px; height: 20px; fill: white; }
+
+.chat-suggestions {
+  padding: 0 16px 16px;
+  display: flex; flex-wrap: wrap; gap: 8px;
+  background: var(--white);
+}
+.suggestion-chip {
+  background: var(--green-pale);
+  border: 1px solid rgba(168,213,181,0.4);
+  color: var(--green-mid); font-size: 0.77rem; font-weight: 500;
+  padding: 6px 14px; border-radius: 20px;
+  cursor: pointer; transition: var(--transition);
+  font-family: 'Poppins', sans-serif;
+}
+.suggestion-chip:hover { background: var(--green-light); color: var(--green-deep); }
+
+/* =============================================
+   CONTACTO
+============================================= */
+#contacto {
+  padding: 100px 0;
+  background: linear-gradient(160deg, var(--green-deep) 0%, #0d3020 100%);
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+#contacto::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(ellipse at 30% 50%, rgba(76,175,128,0.15), transparent 50%),
+    radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.08), transparent 50%);
+}
+#contacto .section-tag { background: rgba(168,213,181,0.15); color: var(--green-light); }
+#contacto .section-title { color: white; }
+#contacto p { color: rgba(255,255,255,0.75); max-width: 560px; margin: 0 auto 40px; font-size: 1.05rem; line-height: 1.8; }
+
+.contact-inner { position: relative; z-index: 1; }
+
+.contact-cards {
+  display: flex; justify-content: center; gap: 24px;
+  margin-bottom: 50px; flex-wrap: wrap;
+}
+.contact-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(168,213,181,0.15);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  color: white; text-align: center;
+  transition: var(--transition);
+  min-width: 180px;
+}
+.contact-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-4px); }
+.contact-card .ico { font-size: 2rem; margin-bottom: 10px; }
+.contact-card span { font-size: 0.82rem; opacity: 0.7; }
+
+/* =============================================
+   FOOTER
+============================================= */
+footer {
+  background: #0a1f14;
+  color: rgba(255,255,255,0.6);
+  padding: 60px 0 30px;
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  gap: 60px; margin-bottom: 50px;
+}
+.footer-brand h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem; color: white; margin-bottom: 12px;
+}
+.footer-brand p { font-size: 0.83rem; line-height: 1.8; max-width: 300px; }
+.footer-motto {
+  margin-top: 20px;
+  font-size: 0.85rem; font-style: italic;
+  color: var(--green-light); opacity: 0.8;
+}
+.footer-links h4 { color: white; font-size: 0.88rem; font-weight: 700; margin-bottom: 16px; letter-spacing: 1px; text-transform: uppercase; }
+.footer-links a {
+  display: block; color: rgba(255,255,255,0.55);
+  text-decoration: none; font-size: 0.83rem;
+  padding: 4px 0; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--green-light); }
+.footer-socials { display: flex; gap: 12px; margin-top: 8px; }
+.social-btn {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.7); font-size: 1rem;
+  transition: var(--transition); cursor: pointer;
+  text-decoration: none;
+}
+.social-btn:hover { background: var(--green-mid); color: white; transform: translateY(-3px); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 28px; text-align: center;
+  font-size: 0.78rem;
+}
+
+/* =============================================
+   FORM INPUTS (generic)
+============================================= */
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 6px; }
+.form-group input, .form-group textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group textarea:focus { border-color: var(--green-soft); }
+.form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.4); }
+
+/* =============================================
+   EDITABLE TEXT (edit mode)
+============================================= */
+.edit-mode [contenteditable="true"] {
+  outline: 2px dashed var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+  cursor: text;
+  min-width: 20px;
+}
+[contenteditable="true"]:focus { outline-color: var(--green-soft); background: rgba(201,168,76,0.05); }
+
+/* =============================================
+   RESPONSIVE
+============================================= */
+@media (max-width: 992px) {
+  .hero-content { grid-template-columns: 1fr; padding-top: 100px; }
+  .hero-visual { display: none; }
+  .who-grid { grid-template-columns: 1fr; gap: 40px; }
+  .datos-grid { grid-template-columns: repeat(2, 1fr); }
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .videos-grid { grid-template-columns: repeat(2, 1fr); }
+  .testimonios-grid { grid-template-columns: repeat(2, 1fr); }
+  .oportunidad-grid { grid-template-columns: 1fr; gap: 40px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+}
+
+@media (max-width: 640px) {
+  .datos-grid { grid-template-columns: 1fr 1fr; }
+  .products-grid { grid-template-columns: 1fr; }
+  .videos-grid { grid-template-columns: 1fr; }
+  .testimonios-grid { grid-template-columns: 1fr; }
+  .who-pillars { grid-template-columns: 1fr; }
+  .opo-features { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero-stats { flex-wrap: wrap; gap: 20px; }
+  .contact-cards { flex-direction: column; align-items: center; }
+}
+
+/* =============================================
+   SECTION DIVIDERS
+============================================= */
+.wave {
+  width: 100%; line-height: 0;
+  overflow: hidden;
+}
+.wave svg { display: block; width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- EDIT MODE INDICATOR -->
+<div id="edit-indicator">✏️ MODO EDICIÓN ACTIVO</div>
+
+<!-- MENU BUTTON -->
+<button id="menu-btn" aria-label="Menú">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- SIDEBAR OVERLAY -->
+<div id="sidebar-overlay"></div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="brand">
+    <span>Marca Personal</span>
+    <h3>La Esencia del Bienestar</h3>
+  </div>
+  <nav>
+    <a href="#inicio" class="nav-link"><span class="icon">🌿</span> Inicio</a>
+    <a href="#quienes" class="nav-link"><span class="icon">💚</span> Quiénes somos</a>
+    <a href="#datos" class="nav-link"><span class="icon">📊</span> Datos clave</a>
+    <a href="#productos" class="nav-link"><span class="icon">✨</span> Productos</a>
+    <a href="#videos" class="nav-link"><span class="icon">▶️</span> Videos</a>
+    <a href="#testimonios" class="nav-link"><span class="icon">⭐</span> Testimonios</a>
+    <a href="#oportunidad" class="nav-link"><span class="icon">🚀</span> Oportunidad</a>
+    <a href="#consultorio" class="nav-link"><span class="icon">🤖</span> Consultorio IA</a>
+    <a href="#contacto" class="nav-link"><span class="icon">📲</span> Contacto</a>
+  </nav>
+  <div class="sidebar-footer">© 2025 La Esencia del Bienestar<br>Todos los derechos reservados</div>
+</aside>
+
+<!-- WHATSAPP FLOAT -->
+<a id="wa-float" href="https://wa.me/573135560955?text=Quiero+mejorar+mi+bienestar" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- =============================================
+     HERO
+============================================= -->
+<section id="inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-img-wrap">
+    <img id="hero-bg-img" src="" alt="Fondo hero" style="display:none;">
+    <button class="edit-img-btn" id="hero-bg-edit-btn" onclick="triggerHeroImgUpload()" style="position:absolute;bottom:20px;right:20px;background:rgba(201,168,76,0.9);display:none;z-index:5;">📷 Cambiar fondo</button>
+    <input type="file" id="hero-img-input" accept="image/*" style="display:none;" onchange="handleHeroImg(event)">
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-text reveal-left">
+      <div class="eyebrow">🌿 Bienestar · Salud · Propósito</div>
+      <h1><em contenteditable="false" data-key="hero-h1-italic">Transforma tu vida</em><br>desde adentro hacia afuera</h1>
+      <p contenteditable="false" data-key="hero-p">Descubre el poder de la naturaleza combinada con ciencia avanzada. Productos de bienestar premium que nutren tu cuerpo, elevan tu energía y transforman tu vida.</p>
+      <div class="hero-btns">
+        <a href="https://wa.me/573135560955?text=Quiero+mejorar+mi+bienestar" class="btn btn-wa" target="_blank">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Quiero mejorar mi bienestar
+        </a>
+        <a href="#productos" class="btn btn-outline" style="border-color:rgba(255,255,255,0.4);color:white;">Ver productos ↓</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>25+</strong><span>Años de exp.</span></div>
+        <div class="hero-stat"><strong>60+</strong><span>Países</span></div>
+        <div class="hero-stat"><strong>1B</strong><span>Familias meta</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal-right">
+      <div class="hero-orb">
+        <div class="hero-orb-inner">
+          <div class="leaf">🌿</div>
+          <span>Bienestar</span>
+        </div>
+        <div class="hero-orb-dot" style="top:12%;left:50%;transform:translateX(-50%);"></div>
+        <div class="hero-orb-dot" style="bottom:12%;left:50%;transform:translateX(-50%);background:#a8d5b5;box-shadow:0 0 12px #a8d5b5;"></div>
+        <div class="hero-orb-dot" style="left:12%;top:50%;transform:translateY(-50%);background:rgba(168,213,181,0.6);box-shadow:0 0 10px rgba(168,213,181,0.6);width:8px;height:8px;"></div>
+        <div class="hero-orb-dot" style="right:12%;top:50%;transform:translateY(-50%);background:rgba(201,168,76,0.5);box-shadow:0 0 10px rgba(201,168,76,0.5);width:8px;height:8px;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     QUIÉNES SOMOS
+============================================= -->
+<section id="quienes" style="padding:100px 0;background:white;">
+  <div class="container">
+    <div class="who-grid">
+      <div class="reveal-left">
+        <div class="who-card-main">
+          <div class="big-icon">💚</div>
+          <h3 contenteditable="false" data-key="who-title">Nuestro propósito va más allá de los productos</h3>
+          <p contenteditable="false" data-key="who-text">Nacimos del deseo genuino de impactar la vida de mil millones de familias alrededor del mundo. Creemos que el bienestar no es un lujo, es un derecho. Que la salud, la mentalidad y la libertad financiera son el fundamento de una vida plena.</p>
+        </div>
+        <div class="who-pillars">
+          <div class="who-pillar reveal">
+            <div class="ico">🌱</div>
+            <h4>Bienestar integral</h4>
+            <p>Nutrición avanzada respaldada por ciencia y naturaleza para transformar tu cuerpo desde adentro.</p>
+          </div>
+          <div class="who-pillar reveal">
+            <div class="ico">🧠</div>
+            <h4>Mentalidad de crecimiento</h4>
+            <p>Te acompañamos en el desarrollo personal para que alcances tu máximo potencial humano.</p>
+          </div>
+          <div class="who-pillar reveal">
+            <div class="ico">💰</div>
+            <h4>Ingresos con propósito</h4>
+            <p>Un modelo de negocio probado en más de 60 países que te permite generar ingresos reales.</p>
+          </div>
+          <div class="who-pillar reveal">
+            <div class="ico">🤝</div>
+            <h4>Comunidad global</h4>
+            <p>Forma parte de una red de personas comprometidas con el bienestar y el servicio al mundo.</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="section-tag">Nuestra historia</div>
+        <h2 class="section-title">Somos más que una marca, somos un movimiento</h2>
+        <p class="section-subtitle" contenteditable="false" data-key="who-story">
+          Todo comenzó con una pregunta simple: ¿por qué tantas personas viven en modo supervivencia cuando el bienestar es posible? Con esa pregunta en el corazón, construimos una plataforma que une los mejores productos de bienestar del mundo con un sistema de ingresos que empodera a las familias.
+        </p>
+        <br>
+        <p class="section-subtitle" contenteditable="false" data-key="who-story2">
+          Hoy somos un equipo apasionado con presencia global, respaldados por más de 25 años de investigación científica, comprometidos con una sola misión: <strong style="color:var(--green-deep)">impactar positivamente mil millones de familias.</strong>
+        </p>
+        <br>
+        <a href="https://wa.me/573135560955?text=Quiero+saber+más+sobre+La+Esencia+del+Bienestar" class="btn btn-green" target="_blank" style="margin-top:16px;">
+          💚 Conócenos más
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     DATOS CLAVE
+============================================= -->
+<section id="datos" style="padding:90px 0;background:linear-gradient(160deg,#e8f5ee,white);">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:50px;" class="reveal">
+      <div class="section-tag">Cifras que inspiran confianza</div>
+      <h2 class="section-title">Resultados que hablan por sí solos</h2>
+    </div>
+    <div class="datos-grid">
+      <div class="dato-card reveal">
+        <div class="dato-icon">🏆</div>
+        <div class="dato-num">25+</div>
+        <div class="dato-label">Años de experiencia y<br>ciencia probada</div>
+      </div>
+      <div class="dato-card reveal" style="transition-delay:0.1s;">
+        <div class="dato-icon">🌍</div>
+        <div class="dato-num">60+</div>
+        <div class="dato-label">Países con presencia<br>activa global</div>
+      </div>
+      <div class="dato-card reveal" style="transition-delay:0.2s;">
+        <div class="dato-icon">🔬</div>
+        <div class="dato-num">100%</div>
+        <div class="dato-label">Tecnología avanzada<br>respaldada por ciencia</div>
+      </div>
+      <div class="dato-card reveal" style="transition-delay:0.3s;">
+        <div class="dato-icon">💎</div>
+        <div class="dato-num">✓</div>
+        <div class="dato-label">Sistema de ingresos<br>probado y duplicable</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     PRODUCTOS
+============================================= -->
+<section id="productos" style="padding:100px 0;background:white;">
+  <div class="container">
+    <div class="products-intro reveal">
+      <div class="section-tag">Ciencia + Naturaleza</div>
+      <h2 class="section-title">Nuestros productos de bienestar premium</h2>
+      <p class="section-subtitle">Cada producto está formulado con los más altos estándares de calidad, respaldado por décadas de investigación científica para transformar tu salud desde adentro.</p>
+    </div>
+    <div class="products-grid" id="products-grid">
+      <!-- Los productos se generan con JS -->
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     VIDEOS
+============================================= -->
+<section id="videos" style="padding:100px 0;background:linear-gradient(160deg,#1a4731,#0f2d1e);">
+  <div class="container">
+    <div class="videos-intro reveal">
+      <div class="section-tag">Aprende y transforma</div>
+      <h2 class="section-title">Videos de bienestar y testimonios</h2>
+      <p class="section-subtitle">Descubre historias reales, consejos de expertos y aprende cómo estos productos pueden transformar tu vida.</p>
+    </div>
+    <div class="videos-grid" id="videos-grid">
+      <!-- Videos generados por JS -->
+    </div>
+    <div class="add-video-section">
+      <button class="btn btn-outline" style="border-color:rgba(168,213,181,0.4);color:rgba(255,255,255,0.7);" id="show-add-video-btn" onclick="document.getElementById('add-video-form').style.display='block';this.style.display='none'">
+        ➕ Agregar video (modo edición)
+      </button>
+      <div id="add-video-form">
+        <div class="form-group">
+          <label>ID de YouTube (ej: dQw4w9WgXcQ)</label>
+          <input type="text" id="yt-id-input" placeholder="ID del video de YouTube">
+        </div>
+        <div class="form-group">
+          <label>Título del video</label>
+          <input type="text" id="yt-title-input" placeholder="Título del video">
+        </div>
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea id="yt-desc-input" rows="2" placeholder="Descripción breve"></textarea>
+        </div>
+        <button class="btn btn-green" onclick="addVideo()" style="width:100%;justify-content:center;">✅ Agregar video</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     TESTIMONIOS
+============================================= -->
+<section id="testimonios" style="padding:100px 0;background:#f7faf8;">
+  <div class="container">
+    <div class="testimonios-intro reveal">
+      <div class="section-tag">Historias reales</div>
+      <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+      <p class="section-subtitle" style="margin:0 auto;">Cada historia es real, cada transformación es genuina. Estas personas confiaron en nosotros y cambiaron su vida.</p>
+    </div>
+    <div class="testimonios-grid" id="testimonios-grid">
+      <!-- Testimonios generados por JS -->
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     OPORTUNIDAD
+============================================= -->
+<section id="oportunidad" style="padding:100px 0;background:white;">
+  <div class="container">
+    <div class="oportunidad-grid">
+      <div class="reveal-left">
+        <div class="section-tag">Libertad financiera</div>
+        <h2 class="section-title">Genera ingresos con propósito</h2>
+        <p class="section-subtitle" contenteditable="false" data-key="opo-text">
+          Únete a miles de personas que han transformado su situación económica mientras comparten productos que realmente cambian vidas. No es solo un negocio, es un movimiento de bienestar global.
+        </p>
+        <div class="opo-features">
+          <div class="opo-feat reveal">
+            <div class="ico">💵</div>
+            <h4>Ingresos adicionales</h4>
+            <p>Gana desde el primer mes compartiendo productos que amas.</p>
+          </div>
+          <div class="opo-feat reveal" style="transition-delay:0.1s;">
+            <div class="ico">⏰</div>
+            <h4>Total flexibilidad</h4>
+            <p>Trabaja a tu ritmo, desde donde quieras y cuando quieras.</p>
+          </div>
+          <div class="opo-feat reveal" style="transition-delay:0.2s;">
+            <div class="ico">📈</div>
+            <h4>Crecimiento personal</h4>
+            <p>Desarrolla habilidades de liderazgo y comunicación.</p>
+          </div>
+          <div class="opo-feat reveal" style="transition-delay:0.3s;">
+            <div class="ico">🌐</div>
+            <h4>Comunidad global</h4>
+            <p>Conecta con líderes apasionados en más de 60 países.</p>
+          </div>
+        </div>
+        <a href="https://wa.me/573135560955?text=Quiero+generar+ingresos+con+La+Esencia+del+Bienestar" class="btn btn-gold" target="_blank" style="margin-top:32px;">
+          🚀 Quiero generar ingresos
+        </a>
+      </div>
+      <div class="opo-visual reveal-right">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold-light);margin-bottom:8px;">Así funciona el sistema</h3>
+        <p style="font-size:0.85rem;opacity:0.7;margin-bottom:0;">Un modelo simple, probado y duplicable en todo el mundo</p>
+        <div class="opo-levels">
+          <div class="opo-level">
+            <div class="num">1</div>
+            <div>
+              <h4>Venta directa</h4>
+              <p>Recomienda productos y gana comisiones inmediatas en cada venta.</p>
+            </div>
+          </div>
+          <div class="opo-level">
+            <div class="num">2</div>
+            <div>
+              <h4>Bonos especiales</h4>
+              <p>Accede a bonos de bienvenida, productividad y liderazgo.</p>
+            </div>
+          </div>
+          <div class="opo-level">
+            <div class="num">3</div>
+            <div>
+              <h4>Construcción de equipo</h4>
+              <p>Invita a otros y gana sobre el volumen de tu equipo en expansión.</p>
+            </div>
+          </div>
+          <div class="opo-level">
+            <div class="num">4</div>
+            <div>
+              <h4>Ingresos residuales</h4>
+              <p>Construye un activo que trabaja para ti 24/7 con tu equipo global.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     CONSULTORIO IA
+============================================= -->
+<section id="consultorio" style="padding:100px 0;background:linear-gradient(160deg,#e8f5ee,white);">
+  <div class="container">
+    <div class="ia-wrapper">
+      <div class="ia-intro reveal">
+        <div class="section-tag">Inteligencia Artificial</div>
+        <h2 class="section-title">Consultorio de Bienestar IA</h2>
+        <p class="section-subtitle" style="margin:0 auto 0;">
+          Pregúntale a nuestra asistente inteligente sobre bienestar, hábitos saludables y nuestros productos. Respuestas instantáneas, personalizadas y amigables.
+        </p>
+        <p style="font-size:0.75rem;color:var(--text-light);margin-top:10px;font-style:italic;">⚠️ No reemplaza el diagnóstico médico profesional.</p>
+      </div>
+      <div class="chat-container reveal" style="margin-top:36px;">
+        <div class="chat-header">
+          <div class="avatar-ia">🌿</div>
+          <div class="chat-header-info">
+            <h4>Asistente de Bienestar</h4>
+            <span>La Esencia del Bienestar · IA</span>
+          </div>
+          <div class="chat-status"></div>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="msg bot">
+            <div class="msg-bubble">¡Hola! 🌿 Soy tu asistente de bienestar. Puedo orientarte sobre hábitos saludables, bienestar integral y nuestros productos premium. ¿En qué puedo ayudarte hoy?</div>
+            <div class="msg-time">Ahora mismo</div>
+          </div>
+        </div>
+        <div class="typing-indicator" id="typing-indicator">
+          <div class="msg-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>
+        </div>
+        <div class="chat-suggestions" id="chat-suggestions">
+          <button class="suggestion-chip" onclick="sendSuggestion(this)">¿Cómo mejorar mi energía?</button>
+          <button class="suggestion-chip" onclick="sendSuggestion(this)">¿Qué productos recomiendan?</button>
+          <button class="suggestion-chip" onclick="sendSuggestion(this)">¿Cómo mejorar mi sueño?</button>
+          <button class="suggestion-chip" onclick="sendSuggestion(this)">Información sobre Transfer Factor</button>
+        </div>
+        <div class="chat-input-area">
+          <textarea id="chat-input" placeholder="Escribe tu consulta sobre bienestar..." rows="1" onkeydown="handleChatKey(event)"></textarea>
+          <button class="chat-send-btn" onclick="sendChat()">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     CONTACTO
+============================================= -->
+<section id="contacto" style="padding:100px 0;background:linear-gradient(160deg,#1a4731,#0d3020);">
+  <div class="container contact-inner">
+    <div class="reveal">
+      <div class="section-tag">¿Listo para empezar?</div>
+      <h2 class="section-title" style="color:white;">Tu transformación comienza<br><em style="color:var(--gold-light);font-style:italic;">con un solo mensaje</em></h2>
+      <p style="color:rgba(255,255,255,0.75);max-width:560px;margin:0 auto 40px;font-size:1.05rem;line-height:1.8;">
+        Escríbenos ahora. En menos de 24 horas te contactaremos con información personalizada, sin compromisos. Tu bienestar no puede esperar más.
+      </p>
+    </div>
+    <div class="contact-cards reveal">
+      <div class="contact-card">
+        <div class="ico">🌿</div>
+        <strong style="color:white;display:block;margin-bottom:4px;">Mejorar mi salud</strong>
+        <span>Quiero más energía</span>
+      </div>
+      <div class="contact-card">
+        <div class="ico">💰</div>
+        <strong style="color:white;display:block;margin-bottom:4px;">Generar ingresos</strong>
+        <span>Oportunidad de negocio</span>
+      </div>
+      <div class="contact-card">
+        <div class="ico">✨</div>
+        <strong style="color:white;display:block;margin-bottom:4px;">Conocer productos</strong>
+        <span>Información detallada</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;" class="reveal">
+      <a href="https://wa.me/573135560955?text=Quiero+empezar+con+La+Esencia+del+Bienestar" class="btn btn-wa" target="_blank" style="font-size:1.05rem;padding:18px 40px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Escribir ahora por WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     FOOTER
+============================================= -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>La Esencia del Bienestar</h3>
+        <p>Comprometidos con transformar la vida de mil millones de familias a través del bienestar integral, la mentalidad positiva y la libertad financiera.</p>
+        <div class="footer-motto">"El bienestar no es un destino, es un camino que recorremos juntos."</div>
+      </div>
+      <div class="footer-links">
+        <h4>Navegación</h4>
+        <a href="#inicio">Inicio</a>
+        <a href="#quienes">Quiénes somos</a>
+        <a href="#datos">Datos clave</a>
+        <a href="#productos">Productos</a>
+        <a href="#videos">Videos</a>
+        <a href="#testimonios">Testimonios</a>
+        <a href="#oportunidad">Oportunidad</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="footer-links">
+        <h4>Conecta</h4>
+        <div class="footer-socials">
+          <a href="https://wa.me/573135560955" class="social-btn" target="_blank">💬</a>
+          <a href="#" class="social-btn">📸</a>
+          <a href="#" class="social-btn">📘</a>
+          <a href="#" class="social-btn">🎵</a>
+        </div>
+        <br>
+        <a href="https://wa.me/573135560955?text=Quiero+información" target="_blank" style="color:rgba(168,213,181,0.8);">📲 +57 313 556 0955</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 La Esencia del Bienestar · Todos los derechos reservados · Diseñado con 💚</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =============================================
+   DATA — PRODUCTOS
+============================================= */
+const defaultProducts = [
+  {
+    id: 'renuvo',
+    name: 'Renuvo',
+    emoji: '🌱',
+    desc: 'Fórmula avanzada de renovación celular que combate el envejecimiento prematuro y revitaliza tu organismo desde adentro.',
+    benefits: ['Renovación celular profunda','Antioxidantes potentes','Reduce el estrés oxidativo','Vitalidad aumentada'],
+    priceOld: '$120.000',
+    priceNew: '$89.000',
+    waMsg: 'Quiero+información+sobre+Renuvo',
+    image: null
+  },
+  {
+    id: 'tf-plus',
+    name: 'Transfer Factor Plus',
+    emoji: '🛡️',
+    desc: 'El suplemento inmunitario más avanzado del mercado. Educa y fortalece tu sistema inmune con tecnología patentada.',
+    benefits: ['Fortalece el sistema inmune','Tecnología Transfer Factor','Combate virus y bacterias','Bienestar duradero'],
+    priceOld: '$150.000',
+    priceNew: '$115.000',
+    waMsg: 'Quiero+información+sobre+Transfer+Factor+Plus',
+    image: null
+  },
+  {
+    id: 'tf-tri',
+    name: 'Transfer Factor Tri-Factor',
+    emoji: '⚡',
+    desc: 'La fórmula triple acción que combina tres fuentes de Transfer Factor para una protección inmune sin precedentes.',
+    benefits: ['Triple fuente de TF','Máxima protección','Formulación exclusiva','Resultados comprobados'],
+    priceOld: '$180.000',
+    priceNew: '$139.000',
+    waMsg: 'Quiero+información+sobre+Transfer+Factor+Tri-Factor',
+    image: null
+  },
+  {
+    id: 'bellevie',
+    name: 'BelleVie',
+    emoji: '🌸',
+    desc: 'Equilibrio hormonal femenino natural. Alivia síntomas del ciclo, mejora el estado de ánimo y potencia la energía femenina.',
+    benefits: ['Equilibrio hormonal','Bienestar femenino','Mejora el ánimo','Energía natural'],
+    priceOld: '$95.000',
+    priceNew: '$72.000',
+    waMsg: 'Quiero+información+sobre+BelleVie',
+    image: null
+  },
+  {
+    id: 'glutamine',
+    name: 'Glutamine Prime',
+    emoji: '💪',
+    desc: 'L-Glutamina de alta pureza para recuperación muscular, salud intestinal y rendimiento deportivo óptimo.',
+    benefits: ['Recuperación muscular','Salud intestinal','Rendimiento deportivo','Alta biodisponibilidad'],
+    priceOld: '$85.000',
+    priceNew: '$65.000',
+    waMsg: 'Quiero+información+sobre+Glutamine+Prime',
+    image: null
+  },
+  {
+    id: 'bcv',
+    name: 'BCV+',
+    emoji: '❤️',
+    desc: 'Soporte cardiovascular premium. Cuida tu corazón con antioxidantes, CoQ10 y nutrientes esenciales para un sistema circulatorio sano.',
+    benefits: ['Salud cardiovascular','CoQ10 activo','Antioxidantes potentes','Circulación óptima'],
+    priceOld: '$110.000',
+    priceNew: '$84.000',
+    waMsg: 'Quiero+información+sobre+BCV+',
+    image: null
+  },
+  {
+    id: 'collagen',
+    name: 'Collagen',
+    emoji: '✨',
+    desc: 'Colágeno marino hidrolizado premium para piel radiante, articulaciones fuertes y cabello y uñas revitalizados.',
+    benefits: ['Piel radiante y firme','Articulaciones sanas','Cabello y uñas fuertes','Fórmula hidrolizada'],
+    priceOld: '$105.000',
+    priceNew: '$79.000',
+    waMsg: 'Quiero+información+sobre+Collagen',
+    image: null
+  },
+  {
+    id: 'reflexion',
+    name: 'Reflexion',
+    emoji: '🧠',
+    desc: 'Nootrópico natural para claridad mental, memoria, concentración y rendimiento cognitivo superior.',
+    benefits: ['Claridad mental','Memoria mejorada','Concentración óptima','Rendimiento cognitivo'],
+    priceOld: '$130.000',
+    priceNew: '$98.000',
+    waMsg: 'Quiero+información+sobre+Reflexion',
+    image: null
+  },
+  {
+    id: 'riovida',
+    name: 'RioVida Burst',
+    emoji: '🍇',
+    desc: 'La bebida antioxidante más poderosa del planeta. Fusión de Transfer Factor con los súper frutos más antioxidantes del mundo.',
+    benefits: ['Máximos antioxidantes','Transfer Factor líquido','Súper frutos mundiales','Sabor irresistible'],
+    priceOld: '$140.000',
+    priceNew: '$107.000',
+    waMsg: 'Quiero+información+sobre+RioVida+Burst',
+    image: null
+  }
+];
+
+/* =============================================
+   DATA — VIDEOS
+============================================= */
+const defaultVideos = [
+  { id: 'v1', ytId: 'tgbNymZ7vqY', title: '¿Qué es Transfer Factor?', desc: 'Descubre la tecnología científica detrás de nuestro producto estrella.' },
+  { id: 'v2', ytId: 'q9Iu7WqVSWA', title: 'Testimonios de bienestar', desc: 'Historias reales de personas que transformaron su salud.' },
+  { id: 'v3', ytId: 'r-ksC4SVl-M', title: 'Oportunidad de negocio', desc: 'Cómo generar ingresos compartiendo productos de bienestar.' }
+];
+
+/* =============================================
+   DATA — TESTIMONIOS
+============================================= */
+const testimoniosData = [
+  { name: 'María González', city: 'Bogotá, Colombia', text: 'Después de 3 meses usando Transfer Factor Plus, mi energía es increíble. Ya no me enfermo como antes y mis hijos están mucho más saludables. ¡Esta marca cambió nuestra vida!', init: 'M' },
+  { name: 'Carlos Rodríguez', city: 'Medellín, Colombia', text: 'Empecé con BCV+ por recomendación médica y los resultados son sorprendentes. Mi colesterol bajó y me siento 10 años más joven. Producto de calidad real.', init: 'C' },
+  { name: 'Laura Martínez', city: 'Cali, Colombia', text: 'El negocio superó mis expectativas. En 6 meses ya tengo un equipo de 40 personas y genero ingresos que jamás imaginé desde casa. ¡Esto es libertad real!', init: 'L' },
+  { name: 'Andrés Pérez', city: 'Barranquilla, Colombia', text: 'Reflexion me ayudó a rendir el doble en el trabajo. Mi concentración y memoria mejoraron notablemente. Vale cada peso invertido.', init: 'A' },
+  { name: 'Sofía Vargas', city: 'Bucaramanga, Colombia', text: 'Collagen transformó mi piel completamente. A los 45 años tengo una piel más firme y luminosa que a los 30. Mis amigas me preguntan mi secreto.', init: 'S' },
+  { name: 'Miguel Torres', city: 'Pereira, Colombia', text: 'RioVida Burst es mi ritual matutino. Me da la energía para el gym y para todo el día. La diferencia se siente desde la primera semana.', init: 'M' }
+];
+
+/* =============================================
+   ESTADO & LOCALSTORAGE
+============================================= */
+let products = JSON.parse(localStorage.getItem('leb_products') || 'null') || defaultProducts;
+let videos   = JSON.parse(localStorage.getItem('leb_videos')   || 'null') || defaultVideos;
+let editMode = false;
+
+function saveProducts(){ localStorage.setItem('leb_products', JSON.stringify(products)); }
+function saveVideos()  { localStorage.setItem('leb_videos',   JSON.stringify(videos));   }
+
+/* =============================================
+   RENDER PRODUCTOS
+============================================= */
+function renderProducts() {
+  const grid = document.getElementById('products-grid');
+  grid.innerHTML = '';
+  products.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'product-card reveal';
+    card.style.transitionDelay = (i % 3 * 0.1) + 's';
+    card.innerHTML = `
+      <div class="product-img-wrap">
+        ${p.image
+          ? `<img src="${p.image}" alt="${p.name}" style="display:block;">`
+          : `<div class="product-img-placeholder"><span>${p.emoji}</span><small>Imagen del producto</small></div>`
+        }
+        <div class="product-badge">OFERTA</div>
+        <button class="edit-img-btn" onclick="triggerProductImg(${i})">📷 Cambiar imagen</button>
+        <input type="file" id="prod-img-${i}" accept="image/*" style="display:none;" onchange="handleProductImg(event,${i})">
+      </div>
+      <div class="product-body">
+        <div class="product-name" ${editMode?'contenteditable="true"':''} data-prod="${i}" data-field="name">${p.name}</div>
+        <div class="product-desc" ${editMode?'contenteditable="true"':''} data-prod="${i}" data-field="desc">${p.desc}</div>
+        <ul class="product-benefits">
+          ${p.benefits.map(b => `<li>${b}</li>`).join('')}
+        </ul>
+        <div class="product-price">
+          <span class="price-old">${p.priceOld}</span>
+          <span class="price-new">${p.priceNew}</span>
+        </div>
+        <a href="https://wa.me/573135560955?text=${p.waMsg}" class="btn btn-wa" target="_blank" style="justify-content:center;width:100%;font-size:0.85rem;padding:12px 20px;">
+          💬 Quiero información
+        </a>
+      </div>`;
+    // Save on blur in edit mode
+    card.querySelectorAll('[contenteditable]').forEach(el => {
+      el.addEventListener('blur', () => {
+        const idx = parseInt(el.dataset.prod);
+        const field = el.dataset.field;
+        products[idx][field] = el.innerText;
+        saveProducts();
+      });
+    });
+    grid.appendChild(card);
+  });
+  observeReveal();
+}
+
+function triggerProductImg(i) {
+  document.getElementById('prod-img-' + i).click();
+}
+function handleProductImg(e, i) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    products[i].image = ev.target.result;
+    saveProducts();
+    renderProducts();
+  };
+  reader.readAsDataURL(file);
+}
+
+/* =============================================
+   RENDER VIDEOS
+============================================= */
+function renderVideos() {
+  const grid = document.getElementById('videos-grid');
+  grid.innerHTML = '';
+  videos.forEach((v) => {
+    const card = document.createElement('div');
+    card.className = 'video-card reveal';
+    card.innerHTML = `
+      <div class="video-thumb">
+        <iframe src="https://www.youtube.com/embed/${v.ytId}" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-info">
+        <h4>${v.title}</h4>
+        <p>${v.desc}</p>
+      </div>`;
+    grid.appendChild(card);
+  });
+  observeReveal();
+}
+
+function addVideo() {
+  const ytId  = document.getElementById('yt-id-input').value.trim();
+  const title = document.getElementById('yt-title-input').value.trim();
+  const desc  = document.getElementById('yt-desc-input').value.trim();
+  if (!ytId || !title) { alert('Por favor ingresa el ID de YouTube y el título.'); return; }
+  // Extract ID if full URL pasted
+  const match = ytId.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  const finalId = match ? match[1] : ytId;
+  videos.push({ id: 'v' + Date.now(), ytId: finalId, title, desc });
+  saveVideos();
+  renderVideos();
+  document.getElementById('yt-id-input').value = '';
+  document.getElementById('yt-title-input').value = '';
+  document.getElementById('yt-desc-input').value = '';
+}
+
+/* =============================================
+   RENDER TESTIMONIOS
+============================================= */
+function renderTestimonios() {
+  const grid = document.getElementById('testimonios-grid');
+  grid.innerHTML = '';
+  testimoniosData.forEach((t, i) => {
+    const card = document.createElement('div');
+    card.className = 'testimonio-card reveal';
+    card.style.transitionDelay = (i % 3 * 0.1) + 's';
+    card.innerHTML = `
+      <div class="quote-icon">"</div>
+      <div class="stars">★★★★★</div>
+      <p>"${t.text}"</p>
+      <div class="testimonio-author">
+        <div class="avatar">${t.init}</div>
+        <div><strong>${t.name}</strong><br><span>${t.city}</span></div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  observeReveal();
+}
+
+/* =============================================
+   HERO BG IMAGE
+============================================= */
+function triggerHeroImgUpload() {
+  document.getElementById('hero-img-input').click();
+}
+function handleHeroImg(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = document.getElementById('hero-bg-img');
+    img.src = ev.target.result;
+    img.style.display = 'block';
+    img.style.opacity = '0.25';
+    localStorage.setItem('leb_hero_img', ev.target.result);
+  };
+  reader.readAsDataURL(file);
+}
+// Load saved hero bg
+const savedHeroBg = localStorage.getItem('leb_hero_img');
+if (savedHeroBg) {
+  const img = document.getElementById('hero-bg-img');
+  img.src = savedHeroBg;
+  img.style.display = 'block';
+  img.style.opacity = '0.25';
+}
+
+/* =============================================
+   EDIT MODE (CTRL+E)
+============================================= */
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.key.toLowerCase() === 'e') {
+    e.preventDefault();
+    editMode = !editMode;
+    document.body.classList.toggle('edit-mode', editMode);
+    document.getElementById('edit-indicator').style.display = editMode ? 'block' : 'none';
+    document.getElementById('hero-bg-edit-btn').style.display = editMode ? 'flex' : 'none';
+    // Toggle contenteditable on editable elements
+    document.querySelectorAll('[data-key]').forEach(el => {
+      el.contentEditable = editMode ? 'true' : 'false';
+    });
+    // Save on blur
+    document.querySelectorAll('[data-key]').forEach(el => {
+      el.addEventListener('blur', () => {
+        localStorage.setItem('leb_text_' + el.dataset.key, el.innerHTML);
+      }, { once: false });
+    });
+    renderProducts(); // re-render products with edit flags
+    if (editMode) {
+      document.getElementById('show-add-video-btn').style.display = 'flex';
+    }
+  }
+});
+
+// Load saved texts
+document.querySelectorAll('[data-key]').forEach(el => {
+  const saved = localStorage.getItem('leb_text_' + el.dataset.key);
+  if (saved) el.innerHTML = saved;
+});
+
+/* =============================================
+   SIDEBAR MENU
+============================================= */
+const menuBtn = document.getElementById('menu-btn');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('sidebar-overlay');
+
+menuBtn.addEventListener('click', () => {
+  const open = sidebar.classList.toggle('open');
+  menuBtn.classList.toggle('open', open);
+  overlay.classList.toggle('visible', open);
+});
+overlay.addEventListener('click', closeSidebar);
+sidebar.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', closeSidebar);
+});
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  menuBtn.classList.remove('open');
+  overlay.classList.remove('visible');
+}
+
+/* =============================================
+   ACTIVE NAV LINK ON SCROLL
+============================================= */
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  sidebar.querySelectorAll('.nav-link').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}, { passive: true });
+
+/* =============================================
+   SCROLL REVEAL OBSERVER
+============================================= */
+function observeReveal() {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+    if (!el.classList.contains('visible')) io.observe(el);
+  });
+}
+
+/* =============================================
+   HERO PARTICLES
+============================================= */
+function createParticles() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 12 + 4;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      animation-duration:${Math.random()*15+10}s;
+      animation-delay:${Math.random()*15}s;
+      opacity:${Math.random()*0.4+0.1};
+    `;
+    container.appendChild(p);
+  }
+}
+
+/* =============================================
+   CHATBOT IA
+============================================= */
+const iaResponses = {
+  energia: [
+    "¡Excelente pregunta! 🌟 Para mejorar tu energía de forma natural te recomiendo: 1) Mantener una rutina de sueño regular (7-8 horas), 2) Hidratarte bien (2L de agua al día), 3) Hacer ejercicio moderado 30 min/día. Nuestro producto <strong>Renuvo</strong> y <strong>RioVida Burst</strong> son perfectos para aumentar la vitalidad celular. ¿Te gustaría más información?"
+  ],
+  sueño: [
+    "El sueño de calidad es fundamental para el bienestar 😴💚 Algunos hábitos clave: 1) Evitar pantallas 1h antes de dormir, 2) Mantener horarios regulares, 3) Temperatura ambiente fresca (18-20°C), 4) Una rutina de relajación. Nuestro producto <strong>Reflexion</strong> también ayuda a reducir el estrés mental que interfiere con el sueño."
+  ],
+  transfer: [
+    "¡Excelente elección! 🛡️ El Transfer Factor es una molécula mensajera del sistema inmune que <strong>educa a tus defensas</strong> para reconocer y combatir amenazas. Es patentado, con más de 25 años de investigación. Tenemos 3 presentaciones: <strong>Transfer Factor Plus</strong>, <strong>Tri-Factor Formula</strong> y <strong>RioVida Burst</strong> (líquido). ¿Te contacto por WhatsApp para darte información personalizada?"
+  ],
+  productos: [
+    "¡Claro! 🌿 Tenemos una línea completa de bienestar: <strong>Renuvo</strong> (renovación celular), <strong>Transfer Factor</strong> (inmunidad), <strong>BelleVie</strong> (bienestar femenino), <strong>Glutamine Prime</strong> (muscular), <strong>BCV+</strong> (cardiovascular), <strong>Collagen</strong> (piel y articulaciones), <strong>Reflexion</strong> (mente) y <strong>RioVida Burst</strong> (antioxidante). ¿Cuál es tu objetivo de bienestar principal?"
+  ],
+  peso: [
+    "Para un peso saludable y sostenible 💚 lo más importante es: 1) Alimentación equilibrada (no dietas extremas), 2) Actividad física regular, 3) Hidratación, 4) Buen descanso. Nuestro <strong>Glutamine Prime</strong> apoya la salud intestinal y muscular, y <strong>Renuvo</strong> activa el metabolismo celular. ¿Quieres un plan personalizado?"
+  ],
+  habitos: [
+    "Los hábitos son la base del bienestar duradero 🌱 Los más impactantes son: 1) Hidratación (agua al despertar), 2) Movimiento diario (aunque sea caminar), 3) Meditación o respiración (5-10 min), 4) Alimentación consciente, 5) Lectura o aprendizaje constante. La consistencia supera a la intensidad. ¿Quieres empezar con alguno en especial?"
+  ],
+  negocio: [
+    "💰 ¡Nuestra oportunidad de negocio es increíble! Puedes generar ingresos a través de: 1) <strong>Venta directa</strong> de productos, 2) <strong>Bonos</strong> de productividad y liderazgo, 3) <strong>Construcción de equipo</strong> global. Funciona en más de 60 países. La inversión inicial es accesible y el sistema es duplicable. ¿Te explico en detalle por WhatsApp?"
+  ],
+  default: [
+    "Gracias por tu consulta 🌿 Como asistente de bienestar, puedo orientarte sobre hábitos saludables, nuestros productos naturales y opciones de bienestar integral. Recuerda que para condiciones médicas específicas, siempre es importante consultar a tu médico. ¿En qué tema concreto puedo ayudarte hoy?",
+    "¡Me alegra que preguntes! 💚 El bienestar es un camino de decisiones cotidianas. Puedo contarte sobre nuestros productos premium, hábitos saludables o la oportunidad de generar ingresos. ¿Qué te interesa más?",
+    "Excelente consulta 🌱 Siempre recuerda que el bienestar integral combina nutrición, movimiento, descanso y mentalidad positiva. Nuestros productos son un aliado, no un reemplazo de un estilo de vida saludable. ¿Cuál es tu objetivo principal de bienestar?"
+  ]
+};
+
+let defaultIdx = 0;
+
+function getIAResponse(msg) {
+  const m = msg.toLowerCase();
+  if (m.includes('energi') || m.includes('cansad') || m.includes('fatiga') || m.includes('vitalid')) return rand(iaResponses.energia);
+  if (m.includes('sueño') || m.includes('dormir') || m.includes('insomnio')) return rand(iaResponses.sueño);
+  if (m.includes('transfer') || m.includes('inmun') || m.includes('defen')) return rand(iaResponses.transfer);
+  if (m.includes('product') || m.includes('recomiend') || m.includes('catálog')) return rand(iaResponses.productos);
+  if (m.includes('peso') || m.includes('adelgaz') || m.includes('dieta') || m.includes('baj')) return rand(iaResponses.peso);
+  if (m.includes('hábit') || m.includes('rutina') || m.includes('hábito')) return rand(iaResponses.habitos);
+  if (m.includes('negocio') || m.includes('ingreso') || m.includes('dinero') || m.includes('ganar')) return rand(iaResponses.negocio);
+  const d = iaResponses.default;
+  const r = d[defaultIdx % d.length]; defaultIdx++;
+  return r;
+}
+
+function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function getTime() {
+  const now = new Date();
+  return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+}
+
+function addMsg(text, role) {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.innerHTML = `<div class="msg-bubble">${text}</div><div class="msg-time">${getTime()}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sendChat() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  addMsg(text, 'user');
+  input.value = '';
+  input.style.height = 'auto';
+  const typing = document.getElementById('typing-indicator');
+  typing.classList.add('show');
+  document.getElementById('chat-messages').scrollTop = 9999;
+  setTimeout(() => {
+    typing.classList.remove('show');
+    addMsg(getIAResponse(text), 'bot');
+  }, 1200 + Math.random() * 800);
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+}
+
+function sendSuggestion(el) {
+  document.getElementById('chat-input').value = el.textContent;
+  sendChat();
+}
+
+// Auto-resize textarea
+document.getElementById('chat-input').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+/* =============================================
+   INIT
+============================================= */
+document.addEventListener('DOMContentLoaded', () => {
+  createParticles();
+  renderProducts();
+  renderVideos();
+  renderTestimonios();
+  observeReveal();
+});
+</script>
+</body>
+</html>
